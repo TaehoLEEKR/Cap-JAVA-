@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">원격 리모콘</string>
+    <string name="app_name">Kiza</string>
     <string name="아이디">아이디</string>
     <string name="비밀번호">비밀번호</string>
     <string name="로그인">로그인</string>
