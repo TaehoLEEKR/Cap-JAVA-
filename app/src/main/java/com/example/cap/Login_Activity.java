@@ -10,7 +10,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -21,23 +30,58 @@ public class Login_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        // 변수 부분
+        EditText et_id = (EditText) findViewById(R.id.et_id);
+        EditText et_pass = (EditText) findViewById(R.id.et_pass);
         Button btn_login = (Button) findViewById(R.id.btn_login);
-        btn_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Login_Activity.this, Main_Activity.class);
-                startActivity(intent);
-            }
-        });
-
         Button btn_signup = (Button) findViewById(R.id.btn_signup);
-        btn_signup.setOnClickListener(new View.OnClickListener() {
+        //
+
+        btn_signup.setOnClickListener(new View.OnClickListener() { // 회원가입 클릭시 함수
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Login_Activity.this, Signup_Activity.class);
                 startActivity(intent);
             }
         });
+
+        btn_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String userID = et_id.getText().toString();
+                String userPass = et_pass.getText().toString();
+
+                Response.Listener<String> responseLisTener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) { // 로그인 오류 예외처리
+                        try {
+                            System.out.println("Cap" + response);
+                            JSONObject jsonObject = new JSONObject(response); // json rep객체 생성
+                            boolean success = jsonObject.getBoolean("success"); // T/F
+                            if (success) { // 로그인 성공
+                                String userID = jsonObject.getString("userID");
+                                String userpass = jsonObject.getString("userPass");
+
+                                Toast.makeText(getApplicationContext(), "success Login", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(Login_Activity.this, Main_Activity.class);
+                                intent.putExtra("userID", userID);
+                                intent.putExtra("userpass", userPass);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Fail Login", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } // onResponse End
+                }; // Response End
+                LoginRequest loginRequest = new LoginRequest(userID,userPass,responseLisTener);
+                RequestQueue queue = Volley.newRequestQueue(Login_Activity.this);
+                queue.add(loginRequest);
+            }
+        }); // onClick End
     } // onCreate end
 
     private long backKeyPressedTime = 0;    // 두번째 뒤로가기 버튼을 눌렀던 시간을 저장

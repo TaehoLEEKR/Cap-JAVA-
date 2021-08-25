@@ -13,39 +13,45 @@
             android:layout_width="350dp"
             android:layout_height="100dp"
             android:gravity="center"
-            android:text=" 회원가입 "
+            android:text="@string/회원가입"
             android:textSize="25dp" />
     </TableRow>
 
     <EditText
+        android:id ="@+id/et_name"
         android:hint="이름"
         android:layout_margin="15dp"
         />
 
 
     <EditText
+        android:id ="@+id/et_id"
         android:hint="아이디"
         android:layout_margin="15dp"
         />
 
 
     <EditText
+        android:id ="@+id/et_pass"
         android:hint="비밀번호"
         android:layout_margin="15dp"
         />
 
     <EditText
+        android:id ="@+id/et_pass2"
         android:hint="비밀번호 확인"
         android:layout_margin="15dp"
         />
 
 
     <EditText
+        android:id ="@+id/et_phone"
         android:hint="연락처"
         android:layout_margin="15dp"
         />
 
     <Button
+        android:id ="@+id/btn_signup"
         android:text="가입"
         android:textSize="15dp"
         android:layout_marginTop="15dp"
