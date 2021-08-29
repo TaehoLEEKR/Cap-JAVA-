@@ -57,6 +57,7 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
         final String PW = et_pass.getText().toString();
         final String Name = et_name.getText().toString();
         final String Phone = et_phone.getText().toString();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(RegisterInterface.REGIST_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())
@@ -64,18 +65,21 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
 
         RegisterInterface api = retrofit.create(RegisterInterface.class);
         Call<String> call = api.getUserRegist(ID, PW, Name, Phone);
+
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-            System.out.println("SSS");
                 if (response.isSuccessful() && response.body() != null) {
+                    System.out.println("SSS");
                     Log.e("onSuccess", response.body());
 
                     String jsonResponse = response.body();
                     try {
                         parseRegData(jsonResponse);
+                        System.out.println("TTT");
                     } catch (JSONException e)
                     {
+                        System.out.println("eee");
                         e.printStackTrace();
                     }
 
@@ -97,6 +101,7 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
          JSONObject jsonObject = new JSONObject(response);
          if (jsonObject.optString("status").equals("true"))
          {
+             System.out.println("pppp");
              saveInfo(response);
              Toast.makeText(Register_Activity_Retrofit.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
          }
@@ -111,6 +116,7 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
         Helper.putIsLogin(true);
         try
         {
+            System.out.println("sisi");
             JSONObject jsonObject = new JSONObject(response);
             if (jsonObject.getString("status").equals("true"))
             {
@@ -118,8 +124,8 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
                 for (int i = 0; i < dataArray.length(); i++)
                 {
                     JSONObject dataobj = dataArray.getJSONObject(i);
-                    Helper.putID(dataobj.getString("name"));
-                    Helper.putName(dataobj.getString("hobby"));
+                    Helper.putID(dataobj.getString("userID"));
+                    Helper.putPW(dataobj.getString("userPW"));
                 }
             }
         }

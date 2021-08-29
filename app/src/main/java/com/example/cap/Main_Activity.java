@@ -65,7 +65,7 @@ public class Main_Activity extends AppCompatActivity {
         else if(System.currentTimeMillis() <= backKeyPressedTime + 2000){
             finish();
             toast.cancel();
-            Intent intent = new Intent(Main_Activity.this, Login_Activity.class);
+            Intent intent = new Intent(Main_Activity.this, Login_Activitiy_Retrofit.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra("KILL_ACT", true);
             startActivity(intent);

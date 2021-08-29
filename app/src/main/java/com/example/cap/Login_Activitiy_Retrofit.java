@@ -70,6 +70,7 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
 
+        System.out.println(ID+PW);
         LoginInterface api = retrofit.create(LoginInterface.class);
         Call<String> call = api.getUserLogin(ID, PW);
         call.enqueue(new Callback<String>()
@@ -79,6 +80,7 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
             {
                 if (response.isSuccessful() && response.body() != null)
                 {
+                    System.out.println("XXXX");
                     Log.e("onSuccess", response.body());
 
                     String jsonResponse = response.body();
@@ -96,6 +98,7 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
     }
     private void parseLoginData(String response)
     {
+        System.out.println("response"+response);
         try
         {
             JSONObject jsonObject = new JSONObject(response);
@@ -104,6 +107,13 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
                 saveInfo(response);
 
                 Toast.makeText(Login_Activitiy_Retrofit.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(Login_Activitiy_Retrofit.this, Main_Activity.class);
+                startActivity(intent);
+
+            }
+            else{
+                Toast.makeText(Login_Activitiy_Retrofit.this, "Login Faile!", Toast.LENGTH_SHORT).show();
             }
         }
         catch (JSONException e)
@@ -116,6 +126,7 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
             Helper.putIsLogin(true);
         try
         {
+
             JSONObject jsonObject = new JSONObject(response);
             if (jsonObject.getString("status").equals("true"))
             {
@@ -123,8 +134,9 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
                 for (int i = 0; i < dataArray.length(); i++)
                 {
                     JSONObject dataobj = dataArray.getJSONObject(i);
-                    Helper.putID(dataobj.getString("name"));
-                    Helper.putName(dataobj.getString("hobby"));
+                    System.out.println("Data"+dataobj);
+                    Helper.putID(dataobj.getString("userID"));
+                    Helper.putPW(dataobj.getString("userPW"));
                 }
             }
         }

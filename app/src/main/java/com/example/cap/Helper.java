@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 
 public class Helper {
     private final String INTRO = "intro";
-    private final String ID = "ID";
-    private final String NAME ="name";
+    private final String userID = "userID";
+    private final String userPW ="userPW";
 
     private SharedPreferences app_prefs;
         private Context context;
@@ -27,24 +27,24 @@ public class Helper {
         public void putID(String loginOrOut)
         {
             SharedPreferences.Editor edit = app_prefs.edit();
-            edit.putString(ID, loginOrOut);
+            edit.putString(userID, loginOrOut);
             edit.apply();
         }
 
         public String getID()
         {
-            return app_prefs.getString(ID, "");
+            return app_prefs.getString(userID, "");
         }
 
-        public void putName(String loginOrOut)
+        public void putPW(String loginOrOut)
         {
             SharedPreferences.Editor edit = app_prefs.edit();
-            edit.putString(NAME, loginOrOut);
+            edit.putString(userPW, loginOrOut);
             edit.apply();
         }
 
-        public String getName()
+        public String getPW()
         {
-            return app_prefs.getString(NAME, "");
+            return app_prefs.getString(userPW, "");
         }
     }
