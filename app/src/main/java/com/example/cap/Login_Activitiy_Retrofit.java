@@ -137,6 +137,7 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
                     JSONObject dataobj = dataArray.getJSONObject(i);
                     System.out.println("Data - >"+dataobj);
                     System.out.println("Data Type" + dataobj.getClass().getName());
+                    System.out.println("jsonobject get? "+ dataobj.get("userID"));
                     Helper.putID(dataobj.getString("userID"));
                     Helper.putPW(dataobj.getString("userPW"));
                 }

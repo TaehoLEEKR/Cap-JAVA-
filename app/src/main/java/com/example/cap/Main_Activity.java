@@ -7,7 +7,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -38,9 +37,12 @@ public class Main_Activity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
                 if (item.getItemId() == R.id.info)
                     System.out.println("내 정보");
-                else if (item.getItemId() == R.id.device)
+                    Intent intent = new Intent(Main_Activity.this, Information_Activitiy.class);
+                    startActivity(intent);
+                    Main_Activity.this.finish();
+                if (item.getItemId() == R.id.device)
                     System.out.println("디바이스");
-                else if (item.getItemId() == R.id.deviceAdd)
+                if (item.getItemId() == R.id.deviceAdd)
                     System.out.println("장치 추가");
                 layout_drawer.closeDrawers();
                 return false;
