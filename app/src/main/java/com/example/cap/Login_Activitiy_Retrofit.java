@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -146,6 +148,32 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
         }
     }
 
+    private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
+    private Toast toast;                    // 첫번째 뒤로가기 시 토스 던지기
 
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료합니다.", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        } else if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            finish();
+            toast.cancel();
+        }
+    }
+
+    protected void onNewIntent(Intent intent)
+    {
+        super.onNewIntent(intent);
+        boolean isKill = intent.getBooleanExtra("KILL_ACT", false);
+        if(isKill)
+            close();
+    }
+
+    private void close() {
+        finish();
+    }
 }
 

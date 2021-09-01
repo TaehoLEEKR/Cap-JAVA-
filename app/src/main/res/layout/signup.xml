@@ -35,12 +35,14 @@
         android:id ="@+id/et_pass"
         android:hint="비밀번호"
         android:layout_margin="15dp"
+        android:inputType="textPassword"
         />
 
     <EditText
         android:id ="@+id/et_pass2"
         android:hint="비밀번호 확인"
         android:layout_margin="15dp"
+        android:inputType="textPassword"
         />
 
 
