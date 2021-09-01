@@ -72,7 +72,7 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
 
-        System.out.println(ID+PW);
+        System.out.println("\nID : "+ ID +"\tPW :" +PW);
         LoginInterface api = retrofit.create(LoginInterface.class);
         Call<String> call = api.getUserLogin(ID, PW);
         call.enqueue(new Callback<String>()
@@ -82,9 +82,8 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
             {
                 if (response.isSuccessful() && response.body() != null)
                 {
-                    System.out.println("XXXX");
-                    Log.e("onSuccess", response.body());
-
+                    System.out.println("\non Success - > " + response.body());
+                    //Log.e("onSuccess", response.body());
                     String jsonResponse = response.body();
                     parseLoginData(jsonResponse);
                 }
@@ -100,7 +99,7 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
     }
     private void parseLoginData(String response)
     {
-        System.out.println("response"+response);
+        System.out.println("\nresponse - > "+response);
         try
         {
             JSONObject jsonObject = new JSONObject(response);
@@ -115,7 +114,7 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
 
             }
             else{
-                Toast.makeText(Login_Activitiy_Retrofit.this, "Login Faile!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Login_Activitiy_Retrofit.this, "Login Fail!", Toast.LENGTH_SHORT).show();
             }
         }
         catch (JSONException e)
@@ -136,7 +135,8 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
                 for (int i = 0; i < dataArray.length(); i++)
                 {
                     JSONObject dataobj = dataArray.getJSONObject(i);
-                    System.out.println("Data"+dataobj);
+                    System.out.println("Data - >"+dataobj);
+                    System.out.println("Data Type" + dataobj.getClass().getName());
                     Helper.putID(dataobj.getString("userID"));
                     Helper.putPW(dataobj.getString("userPW"));
                 }
@@ -169,11 +169,7 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
         super.onNewIntent(intent);
         boolean isKill = intent.getBooleanExtra("KILL_ACT", false);
         if(isKill)
-            close();
-    }
-
-    private void close() {
-        finish();
+            finish();
     }
 }
 

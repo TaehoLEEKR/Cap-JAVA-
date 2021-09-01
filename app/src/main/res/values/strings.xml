@@ -4,6 +4,7 @@
     <string name="비밀번호">비밀번호</string>
     <string name="로그인">로그인</string>
     <string name="회원가입">회원가입</string>
+    <string name="내정보">Information</string>
     <string name="title_activity_signup">Signup_Activity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
