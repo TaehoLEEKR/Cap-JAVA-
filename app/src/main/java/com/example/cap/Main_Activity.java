@@ -44,10 +44,10 @@ public class Main_Activity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
                 if (item.getItemId() == R.id.info)
                     System.out.println("내 정보");
-                    Intent intent = new Intent(Main_Activity.this, Information_Activitiy.class);
-                    intent.putExtra("Datalist", finalDatalist);
-                    startActivity(intent);
-                    Main_Activity.this.finish();
+                Intent intent = new Intent(Main_Activity.this, Information_Activitiy.class);
+                intent.putExtra("Datalist", finalDatalist);
+                startActivity(intent);
+                Main_Activity.this.finish();
                 if (item.getItemId() == R.id.device)
                     System.out.println("디바이스");
                 if (item.getItemId() == R.id.deviceAdd)

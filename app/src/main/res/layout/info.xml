@@ -52,7 +52,7 @@
     </TableRow>
 
     <Button
-        android:id ="@+id/btn_signup"
+        android:id ="@+id/btn_Logout"
         android:text="@string/Logout"
         android:textSize="15dp"
         android:layout_marginTop="15dp"

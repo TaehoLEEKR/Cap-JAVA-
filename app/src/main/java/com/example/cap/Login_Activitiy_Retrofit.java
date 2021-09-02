@@ -131,7 +131,7 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
     ArrayList <String> Datalist = new ArrayList() ; // 데이터들을 리스트 안에 저장 하기위한 변수
 
     private void saveInfo(String response) {
-            Helper.putIsLogin(true);
+        Helper.putIsLogin(true);
         //ArrayList <String> Datalist = new ArrayList() ; // 데이터들을 리스트 안에 저장 하기위한 변수
         try
         {
