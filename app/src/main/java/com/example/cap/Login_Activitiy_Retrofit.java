@@ -3,6 +3,7 @@ package com.example.cap;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,9 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.android.volley.toolbox.StringRequest;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +36,6 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
     private Button btn_login;
     private Button btn_signup;
     private Helper Helper;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +129,7 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
 
     private void saveInfo(String response) {
             Helper.putIsLogin(true);
+        ArrayList <String> Datalist = new ArrayList() ; // 데이터들을 리스트 안에 저장 하기위한 변수
         try
         {
 
@@ -137,12 +142,24 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
                     JSONObject dataobj = dataArray.getJSONObject(i);
                     System.out.println("Data - >"+dataobj);
                     System.out.println("Data Type" + dataobj.getClass().getName());
-                    System.out.println("jsonobject get? "+ dataobj.get("userID"));
+                    System.out.println("jsonobject get? "+ dataobj.get("userID") + "\tjsonobject Type ? " + dataobj.get("userID").getClass().getName());
+
+                    Datalist.add((String) dataobj.get("userID"));
+                    Datalist.add((String) dataobj.get("name"));
+                    Datalist.add((String) dataobj.get("userPW"));
+                    Datalist.add((String) dataobj.get("phone"));
+
+                    for (String j : Datalist){ System.out.println(j);}
+
+                    System.out.println(Datalist.get(0)+ " " +Datalist.get(1)+ " "+Datalist.get(2)+ " "+Datalist.get(3)+ " ");
+
                     Helper.putID(dataobj.getString("userID"));
                     Helper.putPW(dataobj.getString("userPW"));
+
                 }
             }
         }
+
         catch (JSONException e)
         {
             e.printStackTrace();
