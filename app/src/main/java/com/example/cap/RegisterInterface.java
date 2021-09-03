@@ -1,5 +1,8 @@
 package com.example.cap;
 
+import android.widget.EditText;
+import android.widget.Toast;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

@@ -1,6 +1,7 @@
 package com.example.cap;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,7 +28,7 @@ import retrofit2.http.Tag;
 public class Register_Activity_Retrofit extends AppCompatActivity {
     public final String TAG = "Register_Activitiy_Retrofit";
 
-    private EditText et_id, et_phone, et_name, et_pass;
+    private EditText et_id, et_phone, et_name, et_pass, et_pass2;
     private Button btn_signup;
     private Helper Helper;
 
@@ -38,6 +41,7 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
 
         et_id = (EditText) findViewById(R.id.et_id);
         et_pass = (EditText) findViewById(R.id.et_pass);
+        et_pass2 = (EditText) findViewById(R.id.et_pass2);
         et_name = (EditText) findViewById(R.id.et_name);
         et_phone = (EditText) findViewById(R.id.et_phone);
 
@@ -46,9 +50,13 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerMe();
+                if(!et_pass.getText().toString().equals(et_pass2.getText().toString())){
+                    Toast.makeText(Register_Activity_Retrofit.this, "비밀번호가 다릅니다.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    registerMe();
+                }
             }
-
         });
     }
 
@@ -63,6 +71,7 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
 
+
         RegisterInterface api = retrofit.create(RegisterInterface.class);
         Call<String> call = api.getUserRegist(ID, PW, Name, Phone);
 
@@ -70,16 +79,13 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    System.out.println("SSS");
                     Log.e("onSuccess", response.body());
 
                     String jsonResponse = response.body();
                     try {
                         parseRegData(jsonResponse);
-                        System.out.println("TTT");
                     } catch (JSONException e)
                     {
-                        System.out.println("eee");
                         e.printStackTrace();
                     }
 
@@ -101,9 +107,11 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
          JSONObject jsonObject = new JSONObject(response);
          if (jsonObject.optString("status").equals("true"))
          {
-             System.out.println("pppp");
              saveInfo(response);
              Toast.makeText(Register_Activity_Retrofit.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
+             finish();
+             Intent intent = new Intent(Register_Activity_Retrofit.this, Login_Activitiy_Retrofit.class);
+             startActivity(intent);
          }
          else
          {
@@ -116,7 +124,6 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
         Helper.putIsLogin(true);
         try
         {
-            System.out.println("sisi");
             JSONObject jsonObject = new JSONObject(response);
             if (jsonObject.getString("status").equals("true"))
             {
@@ -134,5 +141,15 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
 
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            return;
+        } else if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            finish();
+        }
+    }
 }

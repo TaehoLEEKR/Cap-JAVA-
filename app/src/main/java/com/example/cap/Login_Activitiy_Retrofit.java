@@ -2,6 +2,7 @@ package com.example.cap;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -21,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.Inet4Address;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -55,7 +57,6 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Login_Activitiy_Retrofit.this, Register_Activity_Retrofit.class);
                 startActivity(intent);
-                Login_Activitiy_Retrofit.this.finish();
             }
         });
 
@@ -114,8 +115,8 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
                 Toast.makeText(Login_Activitiy_Retrofit.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(Login_Activitiy_Retrofit.this, Main_Activity.class);
+                intent.putExtra("Datalist", Datalist);
                 startActivity(intent);
-
             }
             else{
                 Toast.makeText(Login_Activitiy_Retrofit.this, "Login Fail!", Toast.LENGTH_SHORT).show();
@@ -127,9 +128,11 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
         }
     }
 
+    ArrayList <String> Datalist = new ArrayList() ; // 데이터들을 리스트 안에 저장 하기위한 변수
+
     private void saveInfo(String response) {
             Helper.putIsLogin(true);
-        ArrayList <String> Datalist = new ArrayList() ; // 데이터들을 리스트 안에 저장 하기위한 변수
+        //ArrayList <String> Datalist = new ArrayList() ; // 데이터들을 리스트 안에 저장 하기위한 변수
         try
         {
 

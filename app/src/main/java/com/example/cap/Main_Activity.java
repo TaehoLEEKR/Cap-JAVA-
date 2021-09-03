@@ -16,12 +16,17 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 public class Main_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        ArrayList<String> Datalist = new ArrayList<String>();
+        Datalist = getIntent().getStringArrayListExtra("Datalist");
 
         DrawerLayout layout_drawer = findViewById(R.id.layout_drawer);
         ImageButton imageButton = findViewById(R.id.imageButton);
@@ -32,12 +37,15 @@ public class Main_Activity extends AppCompatActivity {
             }
         });
         NavigationView naviView = findViewById(R.id.naviView);
+
+        ArrayList<String> finalDatalist = Datalist;
         naviView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
                 if (item.getItemId() == R.id.info)
                     System.out.println("내 정보");
                     Intent intent = new Intent(Main_Activity.this, Information_Activitiy.class);
+                    intent.putExtra("Datalist", finalDatalist);
                     startActivity(intent);
                     Main_Activity.this.finish();
                 if (item.getItemId() == R.id.device)
@@ -72,5 +80,4 @@ public class Main_Activity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
 }
