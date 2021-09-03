@@ -23,25 +23,37 @@
             android:textSize="40dp"
             />
     </TableRow>
-    <TextView
-        android:hint="ID"
-        android:layout_margin="15dp"
-        />
-    <TextView
-        android:hint="Name"
-        android:layout_margin="15dp"
-        />
-    <TextView
-        android:hint="Phone"
-        android:layout_margin="15dp"
-        />
-    <TextView
-        android:hint="Divice"
-        android:layout_margin="15dp"
-        />
+
+    <TableRow>
+        <TextView
+            android:text="ID"
+            android:layout_margin="15dp" />
+        <TextView
+            android:id="@+id/infoID"
+            android:layout_margin = "15dp" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="Name"
+            android:layout_margin="15dp" />
+        <TextView
+            android:id="@+id/infoName"
+            android:layout_margin="15dp" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="Phone"
+            android:layout_margin="15dp" />
+        <TextView
+            android:id="@+id/infoPhone"
+            android:layout_margin="15dp" />
+    </TableRow>
+
     <Button
         android:id ="@+id/btn_signup"
-        android:text=""
+        android:text="@string/Logout"
         android:textSize="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="50dp"
