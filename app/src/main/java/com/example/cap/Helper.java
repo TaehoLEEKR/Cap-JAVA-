@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class Helper {
+    //Helper
+    //로그인과 회원가입 부분에서  데이터를 전달 저장 함
     private final String INTRO = "intro";
     private final String userID = "userID";
     private final String userPW ="userPW";
 
-    private SharedPreferences app_prefs;
+    private SharedPreferences app_prefs; //쉐어드 부분
         private Context context;
 
         public Helper(Context context)

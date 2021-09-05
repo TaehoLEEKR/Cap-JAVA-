@@ -20,57 +20,80 @@ import java.util.ArrayList;
 
 public class Main_Activity extends AppCompatActivity {
 
+    // ------------------------------  변수 설정 부분 ---------------------------------
+    private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
+    private Toast toast;                    // 첫번째 뒤로가기 시 토스 던지기
+    private DrawerLayout layout_drawer;
+    private ImageButton imageButton;
+    private NavigationView naviView;
+
+    //-------------------------------------------------------------------------------
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { //
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        ArrayList<String> Datalist = new ArrayList<String>();
-        Datalist = getIntent().getStringArrayListExtra("Datalist");
+        // ----------------------- 레이아웃 id 변수 -----------------------------------
+        layout_drawer = findViewById(R.id.layout_drawer);
+        imageButton = findViewById(R.id.imageButton);
+        naviView = findViewById(R.id.naviView);
+        layout_drawer = findViewById(R.id.layout_drawer);
+        // ---------------------------------------------------------------------------
 
-        DrawerLayout layout_drawer = findViewById(R.id.layout_drawer);
-        ImageButton imageButton = findViewById(R.id.imageButton);
+        ArrayList<String> Datalist = new ArrayList<String>();
+        Datalist = getIntent().getStringArrayListExtra("Datalist"); // 로그인 에서 받아온 DB 를 배열에 저장한 변수
+        System.out.println("Main []"+Datalist);
+        ArrayList<String> finalDatalist = Datalist;
+
+        //메뉴바 눌렀을때
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 layout_drawer.openDrawer(GravityCompat.END);
             }
         });
-        NavigationView naviView = findViewById(R.id.naviView);
 
-        ArrayList<String> finalDatalist = Datalist;
-        naviView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        //메뉴 함수 부분
+        naviView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+        {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                if (item.getItemId() == R.id.info)
+
+                // 메뉴바 기능
+                if (item.getItemId() == R.id.info) {
                     System.out.println("내 정보");
-                Intent intent = new Intent(Main_Activity.this, Information_Activitiy.class);
-                intent.putExtra("Datalist", finalDatalist);
-                startActivity(intent);
-                Main_Activity.this.finish();
-                if (item.getItemId() == R.id.device)
+                    Intent intent = new Intent(Main_Activity.this, Information_Activitiy.class);
+                    intent.putExtra("Datalist", finalDatalist); // Datalist 를 받아옴
+                    startActivity(intent);
+                }
+                if (item.getItemId() == R.id.device) {
                     System.out.println("디바이스");
-                if (item.getItemId() == R.id.deviceAdd)
+                }
+                if (item.getItemId() == R.id.deviceAdd) {
                     System.out.println("장치 추가");
+                }
+
                 layout_drawer.closeDrawers();
+
                 return false;
             }
         });
     }   // onCreate end
 
-    private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
-    private Toast toast;                    // 첫번째 뒤로가기 시 토스 던지기
-
+    // 메인에서 뒤로가기 두번을 눌렀을때 종료
     @Override
     public void onBackPressed() {
-        DrawerLayout layout_drawer = findViewById(R.id.layout_drawer);
-        if (layout_drawer.isDrawerOpen(GravityCompat.END))
+
+        if (layout_drawer.isDrawerOpen(GravityCompat.END)) {
             layout_drawer.closeDrawers();
+        }
         else if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
             toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료합니다.", Toast.LENGTH_SHORT);
             toast.show();
             return;
+
         } else if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
             finish();
             toast.cancel();
@@ -79,5 +102,6 @@ public class Main_Activity extends AppCompatActivity {
             intent.putExtra("KILL_ACT", true);
             startActivity(intent);
         }
+
     }
 }

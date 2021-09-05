@@ -26,11 +26,15 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 import retrofit2.http.Tag;
 
 public class Register_Activity_Retrofit extends AppCompatActivity {
-    public final String TAG = "Register_Activitiy_Retrofit";
+    //Login_Activitiy_Retrofit 기반
 
+
+    // -------------------------변수 저장 부분-----------------------------------------------------
     private EditText et_id, et_phone, et_name, et_pass, et_pass2;
     private Button btn_signup;
     private Helper Helper;
+    private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
+    // ------------------------------------------------------------------------------------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +43,14 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
 
         Helper = new Helper(this);
 
-        et_id = (EditText) findViewById(R.id.et_id);
-        et_pass = (EditText) findViewById(R.id.et_pass);
-        et_pass2 = (EditText) findViewById(R.id.et_pass2);
-        et_name = (EditText) findViewById(R.id.et_name);
-        et_phone = (EditText) findViewById(R.id.et_phone);
-
-        btn_signup = (Button) findViewById(R.id.btn_signup);
+        // ------------------------------레이아웃 id 변수 설정 부분 ---------------------------------
+        et_id =  findViewById(R.id.et_id);
+        et_pass = findViewById(R.id.et_pass);
+        et_pass2 = findViewById(R.id.et_pass2);
+        et_name = findViewById(R.id.et_name);
+        et_phone = findViewById(R.id.et_phone);
+        btn_signup =findViewById(R.id.btn_signup);
+        // --------------------------------------------------------------------------------------
 
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,17 +83,12 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null)
+                {
                     Log.e("onSuccess", response.body());
-
                     String jsonResponse = response.body();
-                    try {
-                        parseRegData(jsonResponse);
-                    } catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
 
+                    try { parseRegData(jsonResponse); } catch (JSONException e) { e.printStackTrace(); }
                 }
             }
 
@@ -136,12 +136,8 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
                 }
             }
         }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
+        catch (JSONException e) { e.printStackTrace(); }
     }
-    private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
 
     @Override
     public void onBackPressed() {
