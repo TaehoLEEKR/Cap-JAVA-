@@ -75,7 +75,7 @@ public class Main_Activity extends AppCompatActivity {
                             img_sw = 0;
                         }
                         else {
-                            img_btn.setBackgroundResource(R.drawable.power_on);
+                            img_btn.setBackgroundResource(R.drawable.power);
                             img_sw = 1;
                         }
                         break;

@@ -25,7 +25,7 @@
                 android:id="@+id/img_btn"
                 android:layout_width="500dp"
                 android:layout_height="322dp"
-                android:background="@drawable/power_on" />
+                android:background="@drawable/power" />
 
     </TableLayout>
 
