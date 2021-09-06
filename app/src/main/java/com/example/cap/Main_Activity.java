@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -19,81 +20,86 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class Main_Activity extends AppCompatActivity {
-
-    // ------------------------------  변수 설정 부분 ---------------------------------
-    private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
-    private Toast toast;                    // 첫번째 뒤로가기 시 토스 던지기
-    private DrawerLayout layout_drawer;
-    private ImageButton imageButton;
-    private NavigationView naviView;
-
-    //-------------------------------------------------------------------------------
+    private int img_sw = 1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) { //
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        // ----------------------- 레이아웃 id 변수 -----------------------------------
-        layout_drawer = findViewById(R.id.layout_drawer);
-        imageButton = findViewById(R.id.imageButton);
-        naviView = findViewById(R.id.naviView);
-        layout_drawer = findViewById(R.id.layout_drawer);
-        // ---------------------------------------------------------------------------
-
         ArrayList<String> Datalist = new ArrayList<String>();
-        Datalist = getIntent().getStringArrayListExtra("Datalist"); // 로그인 에서 받아온 DB 를 배열에 저장한 변수
-        System.out.println("Main []"+Datalist);
-        ArrayList<String> finalDatalist = Datalist;
+        Datalist = getIntent().getStringArrayListExtra("Datalist");
 
-        //메뉴바 눌렀을때
+        DrawerLayout layout_drawer = findViewById(R.id.layout_drawer);
+        ImageButton imageButton = findViewById(R.id.imageButton);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 layout_drawer.openDrawer(GravityCompat.END);
             }
         });
+        NavigationView naviView = findViewById(R.id.naviView);
 
-        //메뉴 함수 부분
-        naviView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
-        {
+        ArrayList<String> finalDatalist = Datalist;
+        naviView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-
-                // 메뉴바 기능
-                if (item.getItemId() == R.id.info) {
+                if (item.getItemId() == R.id.info)
                     System.out.println("내 정보");
-                    Intent intent = new Intent(Main_Activity.this, Information_Activitiy.class);
-                    intent.putExtra("Datalist", finalDatalist); // Datalist 를 받아옴
-                    startActivity(intent);
-                }
-                if (item.getItemId() == R.id.device) {
+                Intent intent = new Intent(Main_Activity.this, Information_Activitiy.class);
+                intent.putExtra("Datalist", finalDatalist);
+                startActivity(intent);
+                Main_Activity.this.finish();
+                if (item.getItemId() == R.id.device)
                     System.out.println("디바이스");
-                }
-                if (item.getItemId() == R.id.deviceAdd) {
+                if (item.getItemId() == R.id.deviceAdd)
                     System.out.println("장치 추가");
-                }
-
                 layout_drawer.closeDrawers();
-
                 return false;
+            }
+        });
+
+        // 전원버튼 클릭 이미지 변경함수
+        ImageButton img_btn = findViewById(R.id.img_btn);
+        img_btn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        img_btn.setBackgroundResource(R.drawable.power);
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        if(img_sw == 1) {
+                            img_btn.setBackgroundResource(R.drawable.power_off);
+                            img_sw = 0;
+                        }
+                        else {
+                            img_btn.setBackgroundResource(R.drawable.power_on);
+                            img_sw = 1;
+                        }
+                        break;
+                    }
+
+                }   // switch end
+                return true; // 안써주면 반환형오류떠서 써줌!
             }
         });
     }   // onCreate end
 
-    // 메인에서 뒤로가기 두번을 눌렀을때 종료
+    private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
+    private Toast toast;                    // 첫번째 뒤로가기 시 토스 던지기
+
     @Override
     public void onBackPressed() {
-
-        if (layout_drawer.isDrawerOpen(GravityCompat.END)) {
+        DrawerLayout layout_drawer = findViewById(R.id.layout_drawer);
+        if (layout_drawer.isDrawerOpen(GravityCompat.END))
             layout_drawer.closeDrawers();
-        }
         else if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();
             toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료합니다.", Toast.LENGTH_SHORT);
             toast.show();
             return;
-
         } else if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
             finish();
             toast.cancel();
@@ -102,6 +108,5 @@ public class Main_Activity extends AppCompatActivity {
             intent.putExtra("KILL_ACT", true);
             startActivity(intent);
         }
-
     }
 }

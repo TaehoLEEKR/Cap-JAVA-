@@ -20,6 +20,13 @@
             android:src="@drawable/ic_baseline_menu_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/img_btn"
+                android:layout_width="500dp"
+                android:layout_height="322dp"
+                android:background="@drawable/power_on" />
+
     </TableLayout>
 
     <com.google.android.material.navigation.NavigationView
