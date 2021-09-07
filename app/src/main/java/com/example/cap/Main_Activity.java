@@ -6,6 +6,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -20,7 +21,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class Main_Activity extends AppCompatActivity {
+
     private int img_sw = 1;
+    private ImageButton img_btn, img_btn_plus,  img_btn_min ;
+    private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
+    private Toast toast;                    // 첫번째 뒤로가기 시 토스 던지기
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +49,12 @@ public class Main_Activity extends AppCompatActivity {
         naviView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                if (item.getItemId() == R.id.info)
+                if (item.getItemId() == R.id.info) {
                     System.out.println("내 정보");
-                Intent intent = new Intent(Main_Activity.this, Information_Activitiy.class);
-                intent.putExtra("Datalist", finalDatalist);
-                startActivity(intent);
-                Main_Activity.this.finish();
+                    Intent intent = new Intent(Main_Activity.this, Information_Activitiy.class);
+                    intent.putExtra("Datalist", finalDatalist);
+                    startActivity(intent);
+                }
                 if (item.getItemId() == R.id.device)
                     System.out.println("디바이스");
                 if (item.getItemId() == R.id.deviceAdd)
@@ -60,7 +65,10 @@ public class Main_Activity extends AppCompatActivity {
         });
 
         // 전원버튼 클릭 이미지 변경함수
-        ImageButton img_btn = findViewById(R.id.img_btn);
+        img_btn = findViewById(R.id.img_btn);
+        img_btn_min = findViewById(R.id.btn_min);
+        img_btn_plus = findViewById(R.id.btn_plus);
+
         img_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -85,21 +93,56 @@ public class Main_Activity extends AppCompatActivity {
                 return true; // 안써주면 반환형오류떠서 써줌!
             }
         });
+
+        img_btn_min.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:{
+                        img_btn_min.setBackgroundResource(R.drawable.min_w);
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP:{
+                        img_btn_min.setBackgroundResource(R.drawable.min);
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
+        img_btn_plus.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:{
+                        img_btn_plus.setBackgroundResource(R.drawable.plus_w);
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP:{
+                        img_btn_plus.setBackgroundResource(R.drawable.plus);
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
     }   // onCreate end
 
-    private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
-    private Toast toast;                    // 첫번째 뒤로가기 시 토스 던지기
+
 
     @Override
     public void onBackPressed() {
         DrawerLayout layout_drawer = findViewById(R.id.layout_drawer);
-        if (layout_drawer.isDrawerOpen(GravityCompat.END))
+        if (layout_drawer.isDrawerOpen(GravityCompat.END)) {
             layout_drawer.closeDrawers();
+        }
         else if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+
             backKeyPressedTime = System.currentTimeMillis();
             toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료합니다.", Toast.LENGTH_SHORT);
             toast.show();
             return;
+
         } else if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
             finish();
             toast.cancel();

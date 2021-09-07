@@ -49,7 +49,6 @@ public class Information_Activitiy extends AppCompatActivity { // 메뉴바에 i
                 startActivity(intent);
             }
         });
-
     }
 
 
