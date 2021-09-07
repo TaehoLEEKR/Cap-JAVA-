@@ -66,7 +66,7 @@ public class Main_Activity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
-                        img_btn.setBackgroundResource(R.drawable.power);
+                        img_btn.setBackgroundResource(R.drawable.power_ing);
                         break;
                     }
                     case MotionEvent.ACTION_UP: {

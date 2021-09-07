@@ -21,11 +21,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/img_btn"
-                android:layout_width="500dp"
-                android:layout_height="322dp"
-                android:background="@drawable/power" />
+
+        <ImageButton
+            android:id="@+id/img_btn"
+            android:layout_width="329dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/power"
+            android:baselineAligned="false"
+            android:scaleType="matrix"
+            android:scaleX="0.3"
+            android:scaleY="0.45" />
+
 
     </TableLayout>
 
