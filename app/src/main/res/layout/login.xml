@@ -18,7 +18,10 @@
         android:layout_marginRight="80dp"
         android:maxLength="15"
         android:importantForAutofill="no"
-        tools:targetApi="o"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/edit_round"
         />
 
     <EditText
@@ -32,6 +35,10 @@
         android:maxLength="15"
         android:importantForAutofill="no"
         tools:targetApi="o"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/edit_round"
         />
 
 

@@ -20,7 +20,11 @@
     <EditText
         android:id ="@+id/et_name"
         android:hint="이름"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
         android:layout_margin="15dp"
+        android:background="@drawable/edit_round"
         />
 
 
@@ -28,6 +32,10 @@
         android:id ="@+id/et_id"
         android:hint="아이디"
         android:layout_margin="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/edit_round"
         />
 
 
@@ -36,6 +44,10 @@
         android:hint="비밀번호"
         android:layout_margin="15dp"
         android:inputType="textPassword"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/edit_round"
         />
 
     <EditText
@@ -43,6 +55,10 @@
         android:hint="비밀번호 확인"
         android:layout_margin="15dp"
         android:inputType="textPassword"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/edit_round"
         />
 
 
@@ -50,6 +66,11 @@
         android:id ="@+id/et_phone"
         android:hint="연락처"
         android:layout_margin="15dp"
+        android:inputType="phone"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/edit_round"
         />
 
     <Button

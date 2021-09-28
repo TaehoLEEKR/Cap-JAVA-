@@ -27,10 +27,15 @@
     <TableRow>
         <TextView
             android:text="ID"
-            android:layout_margin="15dp" />
+            android:layout_margin="15dp"
+            />
         <TextView
             android:id="@+id/infoID"
-            android:layout_margin = "15dp" />
+            android:layout_margin = "15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/edit_round"/>
     </TableRow>
 
     <TableRow>
@@ -39,7 +44,11 @@
             android:layout_margin="15dp" />
         <TextView
             android:id="@+id/infoName"
-            android:layout_margin="15dp" />
+            android:layout_margin="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/edit_round"/>
     </TableRow>
 
     <TableRow>
@@ -48,7 +57,11 @@
             android:layout_margin="15dp" />
         <TextView
             android:id="@+id/infoPhone"
-            android:layout_margin="15dp" />
+            android:layout_margin="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:background="@drawable/edit_round"/>
     </TableRow>
 
     <Button

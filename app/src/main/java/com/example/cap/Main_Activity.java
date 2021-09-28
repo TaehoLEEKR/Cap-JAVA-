@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -22,10 +24,11 @@ import java.util.ArrayList;
 
 public class Main_Activity extends AppCompatActivity {
 
-    private int img_sw = 1;
+    private int img_sw = 0;
     private ImageButton img_btn, img_btn_plus,  img_btn_min ;
     private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
     private Toast toast;                    // 첫번째 뒤로가기 시 토스 던지기
+    public int number=20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,9 @@ public class Main_Activity extends AppCompatActivity {
         img_btn = findViewById(R.id.img_btn);
         img_btn_min = findViewById(R.id.btn_min);
         img_btn_plus = findViewById(R.id.btn_plus);
+        TextView temp = findViewById(R.id.display_temp);
+        CharSequence b = temp.getText();
+        System.out.println(b);
 
         img_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -80,10 +86,12 @@ public class Main_Activity extends AppCompatActivity {
                     case MotionEvent.ACTION_UP: {
                         if(img_sw == 1) {
                             img_btn.setBackgroundResource(R.drawable.power_off);
+                            temp.setText("OFF");
                             img_sw = 0;
                         }
                         else {
                             img_btn.setBackgroundResource(R.drawable.power);
+                            temp.setText(number + "℃");
                             img_sw = 1;
                         }
                         break;
@@ -104,6 +112,11 @@ public class Main_Activity extends AppCompatActivity {
                     }
                     case MotionEvent.ACTION_UP:{
                         img_btn_min.setBackgroundResource(R.drawable.min);
+                        if(img_sw == 1) {
+                            if (number > 18)
+                                number -= 1;
+                            temp.setText(number + "℃");
+                        }
                         break;
                     }
                 }
@@ -120,6 +133,11 @@ public class Main_Activity extends AppCompatActivity {
                     }
                     case MotionEvent.ACTION_UP:{
                         img_btn_plus.setBackgroundResource(R.drawable.plus);
+                        if(img_sw == 1) {
+                            if (number < 30)
+                                number += 1;
+                            temp.setText(number + "℃");
+                        }
                         break;
                     }
                 }
