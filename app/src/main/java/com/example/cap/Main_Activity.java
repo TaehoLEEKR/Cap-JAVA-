@@ -6,6 +6,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -20,12 +21,13 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class Main_Activity extends AppCompatActivity {
 
     private int img_sw = 0;
-    private ImageButton img_btn, img_btn_plus,  img_btn_min ;
+    private ImageButton img_btn, img_tv, img_air, img_beem ;
     private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
     private Toast toast;                    // 첫번째 뒤로가기 시 토스 던지기
     public int number=20;
@@ -67,13 +69,44 @@ public class Main_Activity extends AppCompatActivity {
             }
         });
 
+
+        ImageButton Air = findViewById(R.id.air);
+        Air.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Main_Activity.this, AirActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageButton TV = findViewById(R.id.tv);
+        TV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Main_Activity.this, TvActivity.class);
+                startActivity(intent);
+            }
+        });
+
+//        ImageButton Beem = findViewById(R.id.beem);
+//        Beem.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Main_Activity.this, BeemActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+        // 마지막거 만들면 추가할 예정.
+
+
+
         // 전원버튼 클릭 이미지 변경함수
         img_btn = findViewById(R.id.img_btn);
-        img_btn_min = findViewById(R.id.btn_min);
-        img_btn_plus = findViewById(R.id.btn_plus);
-        TextView temp = findViewById(R.id.display_temp);
-        CharSequence b = temp.getText();
-        System.out.println(b);
+        img_tv = findViewById(R.id.tv);
+        img_air = findViewById(R.id.air);
+        img_beem = findViewById(R.id.beem);
+//        img_btn_min = findViewById(R.id.btn_min);
+//        img_btn_plus = findViewById(R.id.btn_plus);
 
         img_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -86,12 +119,10 @@ public class Main_Activity extends AppCompatActivity {
                     case MotionEvent.ACTION_UP: {
                         if(img_sw == 1) {
                             img_btn.setBackgroundResource(R.drawable.power_off);
-                            temp.setText("OFF");
                             img_sw = 0;
                         }
                         else {
                             img_btn.setBackgroundResource(R.drawable.power);
-                            temp.setText(number + "℃");
                             img_sw = 1;
                         }
                         break;
@@ -102,50 +133,102 @@ public class Main_Activity extends AppCompatActivity {
             }
         });
 
-        img_btn_min.setOnTouchListener(new View.OnTouchListener() {
+        img_air.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()){
                     case MotionEvent.ACTION_DOWN:{
-                        img_btn_min.setBackgroundResource(R.drawable.min_w);
+                        img_air.setBackgroundResource(R.color.back);
                         break;
-                    }
-                    case MotionEvent.ACTION_UP:{
-                        img_btn_min.setBackgroundResource(R.drawable.min);
-                        if(img_sw == 1) {
-                            if (number > 18)
-                                number -= 1;
-                            temp.setText(number + "℃");
-                        }
-                        break;
-                    }
-                }
-                return true;
-            }
-        });
-        img_btn_plus.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()){
-                    case MotionEvent.ACTION_DOWN:{
-                        img_btn_plus.setBackgroundResource(R.drawable.plus_w);
-                        break;
-                    }
-                    case MotionEvent.ACTION_UP:{
-                        img_btn_plus.setBackgroundResource(R.drawable.plus);
-                        if(img_sw == 1) {
-                            if (number < 30)
-                                number += 1;
-                            temp.setText(number + "℃");
-                        }
-                        break;
-                    }
-                }
-                return true;
-            }
-        });
-    }   // onCreate end
 
+                    }
+                    case MotionEvent.ACTION_UP:{
+                        img_air.setBackgroundResource(R.color.white);
+                        break;
+                    }
+                }   // switch end
+                return true;
+            }
+        });
+
+            img_tv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:{
+                        img_tv.setBackgroundResource(R.color.back);
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP:{
+                        img_tv.setBackgroundResource(R.color.white);
+                        break;
+                    }
+                }  // switch end
+                return true;
+            }
+        });
+
+                img_beem.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:{
+                        img_beem.setBackgroundResource(R.color.back);
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP:{
+                        img_beem.setBackgroundResource(R.color.white);
+                        break;
+                    }
+                }  // switch end
+                return true;
+            }
+        });
+
+
+//        img_btn_min.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                switch (motionEvent.getAction()){
+//                    case MotionEvent.ACTION_DOWN:{
+//                        img_btn_min.setBackgroundResource(R.drawable.min_w);
+//                        break;
+//                    }
+//                    case MotionEvent.ACTION_UP:{
+//                        img_btn_min.setBackgroundResource(R.drawable.min);
+//                        if(img_sw == 1) {
+//                            if (number > 18)
+//                                number -= 1;
+//                            temp.setText(number + "℃");
+//                        }
+//                        break;
+//                    }
+//                }
+//                return true;
+//            }
+//        });
+//        img_btn_plus.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                switch (motionEvent.getAction()){
+//                    case MotionEvent.ACTION_DOWN:{
+//                        img_btn_plus.setBackgroundResource(R.drawable.plus_w);
+//                        break;
+//                    }
+//                    case MotionEvent.ACTION_UP:{
+//                        img_btn_plus.setBackgroundResource(R.drawable.plus);
+//                        if(img_sw == 1) {
+//                            if (number < 30)
+//                                number += 1;
+//                            temp.setText(number + "℃");
+//                        }
+//                        break;
+//                    }
+//                }
+//                return true;
+//            }
+//        });
+    }   // onCreate end
 
 
     @Override

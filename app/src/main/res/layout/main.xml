@@ -21,52 +21,99 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TableRow>
-            <ImageButton
-                android:id="@+id/btn_min"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/min"
-                android:layout_marginTop="127dp"
-                android:layout_marginLeft="30dp"
-                android:scaleType="centerCrop"  />
 
+        <TableRow>
+
+            <androidx.constraintlayout.utils.widget.ImageFilterButton/>
             <ImageButton
                 android:id="@+id/img_btn"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="120dp"
                 android:background="@drawable/power_off"
                 android:baselineAligned="false"
-                android:layout_marginTop="117dp"
-                android:layout_marginLeft="20dp"
                 android:scaleType="matrix"
                 android:scaleX="1"
                 android:scaleY="1" />
-
-            <ImageButton
-                android:id="@+id/btn_plus"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/plus"
-                android:layout_marginTop="127dp"
-                android:layout_marginLeft="20dp"
-                android:scaleType="centerCrop" />
-                />
         </TableRow>
 
-            <TextView
-                android:id="@+id/display_temp"
-                android:gravity="center"
-                android:inputType="number"
-                android:text="OFF"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="140dp"
-                android:layout_marginRight="130dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="20dp"
-                android:textAlignment="center"
-                android:textSize="40dp"
-                android:background="@drawable/edit_round"/>
+        <TableRow>
+            <ImageButton
+                    android:id="@+id/air"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@color/white"
+                    android:src="@drawable/air"
+                    android:layout_marginTop="200dp"
+                    android:layout_marginLeft="20dp"
+                    android:scaleType="centerCrop" />
+
+                <ImageButton
+                    android:id="@+id/tv"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@color/white"
+                    android:src="@drawable/tv"
+                    android:layout_marginTop="200dp"
+                    android:layout_marginLeft="10dp"
+                    android:scaleType="centerCrop"  />
+
+                <ImageButton
+                    android:id="@+id/beem"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@color/white"
+                    android:src="@drawable/beem"
+                    android:layout_marginTop="200dp"
+                    android:layout_marginLeft="10dp"
+                    android:scaleType="centerCrop"  />
+            </TableRow>
+<!--        <TableRow>-->
+<!--            <ImageButton-->
+<!--                android:id="@+id/btn_min"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="100dp"-->
+<!--                android:background="@drawable/min"-->
+<!--                android:layout_marginTop="127dp"-->
+<!--                android:layout_marginLeft="30dp"-->
+<!--                android:scaleType="centerCrop"  />-->
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/img_btn"-->
+<!--                android:layout_width="120dp"-->
+<!--                android:layout_height="120dp"-->
+<!--                android:background="@drawable/power_off"-->
+<!--                android:baselineAligned="false"-->
+<!--                android:layout_marginTop="117dp"-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:scaleType="matrix"-->
+<!--                android:scaleX="1"-->
+<!--                android:scaleY="1" />-->
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/btn_plus"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="100dp"-->
+<!--                android:background="@drawable/plus"-->
+<!--                android:layout_marginTop="127dp"-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:scaleType="centerCrop" />-->
+<!--                />-->
+<!--        </TableRow>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/display_temp"-->
+<!--                android:gravity="center"-->
+<!--                android:inputType="number"-->
+<!--                android:text="OFF"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginLeft="140dp"-->
+<!--                android:layout_marginRight="130dp"-->
+<!--                android:paddingLeft="15dp"-->
+<!--                android:paddingRight="20dp"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textSize="40dp"-->
+<!--                android:background="@drawable/edit_round"/>-->
 
     </TableLayout>
 

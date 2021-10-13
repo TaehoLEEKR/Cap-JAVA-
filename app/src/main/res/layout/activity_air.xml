@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AirActivity">
+
+    <TableRow>
+        <ImageButton
+            android:id="@+id/btn_min"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/min"
+            android:layout_marginTop="127dp"
+            android:layout_marginLeft="30dp"
+            android:scaleType="centerCrop"  />
+
+        <ImageButton
+            android:id="@+id/img_btn"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/power_off"
+            android:baselineAligned="false"
+            android:layout_marginTop="117dp"
+            android:layout_marginLeft="20dp"
+            android:scaleType="matrix"
+            android:scaleX="1"
+            android:scaleY="1" />
+
+        <ImageButton
+            android:id="@+id/btn_plus"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="127dp"
+            android:background="@drawable/plus"
+            android:scaleType="centerCrop" />
+        />
+    </TableRow>
+
+    <TextView
+        android:id="@+id/display_temp"
+        android:gravity="center"
+        android:inputType="number"
+        android:text="OFF"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="140dp"
+        android:layout_marginRight="130dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="20dp"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:background="@drawable/edit_round"/>
+    <TableRow>
+        <ImageButton
+            android:id="@+id/btn_min2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/min"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="30dp"
+            android:scaleType="centerCrop"/>
+
+        <ImageButton
+            android:id="@+id/btn_plus2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/plus"
+            android:scaleType="centerCrop" />
+    </TableRow>
+
+</TableLayout>
