@@ -16,17 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cap"
         android:usesCleartextTraffic="true">
-        <activity android:name=".BeemActivity"></activity>
-        <activity android:name=".TvActivity" />
-        <activity android:name=".AirActivity" />
-        <activity
-            android:name=".Register_Activity_Retrofit"
+        <activity android:name=".BeemActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity android:name=".TvActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity android:name=".AirActivity"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+        <activity android:name=".Register_Activity_Retrofit"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
-        <activity
-            android:name=".Information_Activitiy"
+        <activity android:name=".Information_Activitiy"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
-        <activity
-            android:name=".Login_Activitiy_Retrofit"
+        <activity android:name=".Login_Activitiy_Retrofit"
             android:theme="@style/Theme.Design.Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

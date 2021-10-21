@@ -69,24 +69,23 @@ public class Main_Activity extends AppCompatActivity {
             }
         });
 
-
-        ImageButton Air = findViewById(R.id.air);
-        Air.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Main_Activity.this, AirActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        ImageButton TV = findViewById(R.id.tv);
-        TV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Main_Activity.this, TvActivity.class);
-                startActivity(intent);
-            }
-        });
+//        ImageButton Air = findViewById(R.id.air);
+//        Air.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Main_Activity.this, AirActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        ImageButton TV = findViewById(R.id.tv);
+//        TV.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Main_Activity.this, TvActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
 //        ImageButton Beem = findViewById(R.id.beem);
 //        Beem.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +143,8 @@ public class Main_Activity extends AppCompatActivity {
                     }
                     case MotionEvent.ACTION_UP:{
                         img_air.setBackgroundResource(R.color.white);
+                        Intent intent = new Intent(Main_Activity.this, AirActivity.class);
+                        startActivity(intent);
                         break;
                     }
                 }   // switch end
@@ -161,6 +162,8 @@ public class Main_Activity extends AppCompatActivity {
                     }
                     case MotionEvent.ACTION_UP:{
                         img_tv.setBackgroundResource(R.color.white);
+                        Intent intent = new Intent(Main_Activity.this, TvActivity.class);
+                        startActivity(intent);
                         break;
                     }
                 }  // switch end
@@ -178,6 +181,8 @@ public class Main_Activity extends AppCompatActivity {
                     }
                     case MotionEvent.ACTION_UP:{
                         img_beem.setBackgroundResource(R.color.white);
+                        Intent intent = new Intent(Main_Activity.this, BeemActivity.class);
+                        startActivity(intent);
                         break;
                     }
                 }  // switch end
