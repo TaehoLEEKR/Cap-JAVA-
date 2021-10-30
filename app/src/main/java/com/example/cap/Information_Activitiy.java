@@ -47,6 +47,7 @@ public class Information_Activitiy extends AppCompatActivity { // 메뉴바에 i
             public void onClick(View view) {
                 Intent intent = new Intent(Information_Activitiy.this,Login_Activitiy_Retrofit.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
