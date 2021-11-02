@@ -12,7 +12,7 @@ public interface ON_interface {
     @FormUrlEncoded
     @POST("ONad.php") // post 형식으로 php 웹서버에 전달
 
-    Call<String> getONID(
+    Call<String> getONID( // 굳
             @Field("AIRON") String AIRON
     );
 }
