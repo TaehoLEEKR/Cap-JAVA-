@@ -6,39 +6,27 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
-import android.content.SyncStatusObserver;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import retrofit2.http.POST;
 
 public class Main_Activity extends AppCompatActivity {
 
@@ -142,6 +130,8 @@ public class Main_Activity extends AppCompatActivity {
                     }
                     case MotionEvent.ACTION_UP: {
                         if(img_sw == 1) {
+                            img_sw = 0;
+
                             img_btn.setBackgroundResource(R.drawable.power_off); // 개빢치네 여기는 왜 안됨
 
                             Retrofit retrofit = new Retrofit.Builder()
@@ -156,7 +146,6 @@ public class Main_Activity extends AppCompatActivity {
                                 public void onResponse(Call<String> call, Response<String> response) {
                                     if(response.isSuccessful()){
                                         String jsonResponse = response.body();
-                                        //System.out.println("ERROR2");
                                         parseDBdata(jsonResponse);
                                     }
                                 }
@@ -164,12 +153,9 @@ public class Main_Activity extends AppCompatActivity {
                                 private void parseDBdata(String response) {
                                     try
                                     {
-                                        //  System.out.println("ERROR3");
                                         JSONObject jsonObject = new JSONObject((response));
-                                        // System.out.println("ERROR4");
                                         if(jsonObject.getString("status").equals("true"))
                                         {
-                                            //   System.out.println("ERROR5");
                                             saveData(response);
                                         }
                                     } catch (JSONException e) { e.printStackTrace();}
@@ -177,22 +163,13 @@ public class Main_Activity extends AppCompatActivity {
 
                                 private void saveData(String response) {
                                     Helper.PutIsData(true);
-                                    //System.out.println("ERROR7");
                                     try{
-                                        //  System.out.println("ERROR8");
                                         JSONObject jsonObject = new JSONObject(String.valueOf(response));
                                         System.out.println(jsonObject);
-                                        //System.out.println("ERROR9");
                                         if(jsonObject.getString("status").equals("true")){
-                                            //  System.out.println("ERROR10");
                                             JSONArray dataArray = jsonObject.getJSONArray("data");
-                                            // System.out.println("ERROR11");
                                             for(int i = 0; i<dataArray.length(); i++){
                                                 JSONObject dataobj = dataArray.getJSONObject(i);
-                                                System.out.println("ERROR12");
-                                                System.out.println(dataobj);
-                                                //Helper.putAIRID(dataobj.getString(AIRID));
-                                                // System.out.println("ERROR13");\
                                                 OFFDATALIST.add((String) dataobj.get("AIROFF"));
                                                 for(String j : OFFDATALIST) { System.out.println(j); }
                                             }
@@ -208,39 +185,35 @@ public class Main_Activity extends AppCompatActivity {
 
                                 }
                             });
-
-                            img_sw = 0;
                         }
                         else {
+                            img_sw = 1;
+
                             img_btn.setBackgroundResource(R.drawable.power);
                             Retrofit retrofit = new Retrofit.Builder()
-                                    .baseUrl(PostAPI.Post_URL)
+                                    .baseUrl(ON_interface.Post_URL)
                                     .addConverterFactory(ScalarsConverterFactory.create())
                                     .build();
-                            PostAPI api = retrofit.create(PostAPI.class);
+                            ON_interface api = retrofit.create(ON_interface.class);
                             Call<String> call = api.getONID(AIRID);
                             call.enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(@NonNull Call <String> call, @NonNull  Response<String> response) {
                                     if(response.isSuccessful()){
                                         String jsonResponse = response.body();
-                                        //System.out.println("ERROR2");
+
                                         parseDBdata(jsonResponse);
                                     }
                                 }   @Override
                                 public void onFailure(Call<String> call, Throwable throwable) {
                                     throwable.printStackTrace();
-                                    //System.out.println("ERORR");
                                 }
                                 private void parseDBdata(String response) {
                                     try
                                     {
-                                      //  System.out.println("ERROR3");
                                         JSONObject jsonObject = new JSONObject((response));
-                                       // System.out.println("ERROR4");
                                         if(jsonObject.getString("status").equals("true"))
                                         {
-                                         //   System.out.println("ERROR5");
                                             saveData(response);
                                         }
                                     } catch (JSONException e) {
@@ -248,24 +221,15 @@ public class Main_Activity extends AppCompatActivity {
                                     }
                                 }
                                 private void saveData(String response) {
-                                    //System.out.println("ERROR6");
                                     Helper.PutIsData(true);
-                                    //System.out.println("ERROR7");
                                     try{
-                                      //  System.out.println("ERROR8");
                                         JSONObject jsonObject = new JSONObject(String.valueOf(response));
                                         System.out.println(jsonObject);
-                                        //System.out.println("ERROR9");
                                         if(jsonObject.getString("status").equals("true")){
-                                          //  System.out.println("ERROR10");
                                             JSONArray dataArray = jsonObject.getJSONArray("data");
-                                           // System.out.println("ERROR11");
                                             for(int i = 0; i<dataArray.length(); i++){
                                                 JSONObject dataobj = dataArray.getJSONObject(i);
-                                             //System.out.println("ERROR12");
                                                 System.out.println(dataobj);
-                                                //Helper.putAIRID(dataobj.getString(AIRID));
-                                               // System.out.println("ERROR13");\
                                                 ONDATALIST.add((String) dataobj.get("AIRON"));
                                                         for(String j : ONDATALIST) { System.out.println(j); }
                                             }
@@ -276,7 +240,6 @@ public class Main_Activity extends AppCompatActivity {
                                     }
                                 }
                             });
-                            img_sw = 1;
                         }
                         break;
                     }

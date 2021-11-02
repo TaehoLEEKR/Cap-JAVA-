@@ -10,7 +10,7 @@ public interface OFF_interface {
     String Post_URL = "http://3.34.255.8/Retrofit/"; // BASE_URL
 
     @FormUrlEncoded
-    @POST("ONad.php") // post 형식으로 php 웹서버에 전달
+    @POST("OFFad.php") // post 형식으로 php 웹서버에 전달
 
     Call<String> getOFFID(
             @Field("AIROFF") String AIROFF
