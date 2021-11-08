@@ -39,6 +39,11 @@ public class Main_Activity extends AppCompatActivity {
     private ArrayList <String> OFFDATALIST = new ArrayList();
 
 
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(P_INTER.Post_URL)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .build();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,9 +125,10 @@ public class Main_Activity extends AppCompatActivity {
         img_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                final String AIRID = String.valueOf(img_btn.getId()); // 전원을 눌렀을때 아무 값이 전해지지 않아 일부러 버튼ID 값을 String으로 바꿔서 신호를 보냄
-                final String AIROFF = String.valueOf(img_btn.getId());
-
+                //final String AIRID = String.valueOf(img_btn.getId()); // 전원을 눌렀을때 아무 값이 전해지지 않아 일부러 버튼ID 값을 String으로 바꿔서 신호를 보냄
+                //final String AIR = new String("ON");
+                //final String AIROFF = String.valueOf(img_btn.getId());
+                String AIR;
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
                         img_btn.setBackgroundResource(R.drawable.power_ing);
@@ -132,115 +138,67 @@ public class Main_Activity extends AppCompatActivity {
                         if(img_sw == 1) {
                             img_sw = 0;
 
+                            AIR = new String("OFF");        // Post OFF
+
                             img_btn.setBackgroundResource(R.drawable.power_off); // 개빢치네 여기는 왜 안됨
 
-                            Retrofit retrofit = new Retrofit.Builder()
-                                    .baseUrl(OFF_interface.Post_URL)
-                                    .addConverterFactory(ScalarsConverterFactory.create())
-                                    .build();
-                            OFF_interface api = retrofit.create(OFF_interface.class);
-                            Call<String> call = api.getOFFID(AIROFF);
-
-                            call.enqueue(new Callback<String>() {
-                                @Override
-                                public void onResponse(Call<String> call, Response<String> response) {
-                                    if(response.isSuccessful()){
-                                        String jsonResponse = response.body();
-                                        parseDBdata(jsonResponse);
-                                    }
-                                }
-
-                                private void parseDBdata(String response) {
-                                    try
-                                    {
-                                        JSONObject jsonObject = new JSONObject((response));
-                                        if(jsonObject.getString("status").equals("true"))
-                                        {
-                                            saveData(response);
-                                        }
-                                    } catch (JSONException e) { e.printStackTrace();}
-                                }
-
-                                private void saveData(String response) {
-                                    Helper.PutIsData(true);
-                                    try{
-                                        JSONObject jsonObject = new JSONObject(String.valueOf(response));
-                                        System.out.println(jsonObject);
-                                        if(jsonObject.getString("status").equals("true")){
-                                            JSONArray dataArray = jsonObject.getJSONArray("data");
-                                            for(int i = 0; i<dataArray.length(); i++){
-                                                JSONObject dataobj = dataArray.getJSONObject(i);
-                                                OFFDATALIST.add((String) dataobj.get("AIROFF"));
-                                                for(String j : OFFDATALIST) { System.out.println(j); }
-                                            }
-                                        }
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<String> call, Throwable throwable) {
-
-                                }
-                            });
                         }
                         else {
                             img_sw = 1;
 
+                            AIR = new String("ON");        // Post ON
+
                             img_btn.setBackgroundResource(R.drawable.power);
-                            Retrofit retrofit = new Retrofit.Builder()
-                                    .baseUrl(ON_interface.Post_URL)
-                                    .addConverterFactory(ScalarsConverterFactory.create())
-                                    .build();
-                            ON_interface api = retrofit.create(ON_interface.class);
-                            Call<String> call = api.getONID(AIRID);
-                            call.enqueue(new Callback<String>() {
-                                @Override
-                                public void onResponse(@NonNull Call <String> call, @NonNull  Response<String> response) {
-                                    if(response.isSuccessful()){
-                                        String jsonResponse = response.body();
-
-                                        parseDBdata(jsonResponse);
-                                    }
-                                }   @Override
-                                public void onFailure(Call<String> call, Throwable throwable) {
-                                    throwable.printStackTrace();
-                                }
-                                private void parseDBdata(String response) {
-                                    try
-                                    {
-                                        JSONObject jsonObject = new JSONObject((response));
-                                        if(jsonObject.getString("status").equals("true"))
-                                        {
-                                            saveData(response);
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                                private void saveData(String response) {
-                                    Helper.PutIsData(true);
-                                    try{
-                                        JSONObject jsonObject = new JSONObject(String.valueOf(response));
-                                        System.out.println(jsonObject);
-                                        if(jsonObject.getString("status").equals("true")){
-                                            JSONArray dataArray = jsonObject.getJSONArray("data");
-                                            for(int i = 0; i<dataArray.length(); i++){
-                                                JSONObject dataobj = dataArray.getJSONObject(i);
-                                                System.out.println(dataobj);
-                                                ONDATALIST.add((String) dataobj.get("AIRON"));
-                                                        for(String j : ONDATALIST) { System.out.println(j); }
-                                            }
-                                        }
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
                         }
+
+                        P_INTER API = retrofit.create(P_INTER.class);
+                        Call<String> call = API.getID(AIR);
+
+                        call.enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(Call<String> call, Response<String> response) {
+                                if(response.isSuccessful()){
+                                    String jsonResponse = response.body();
+                                    parseDBdata(jsonResponse);
+                                }
+                            }
+
+                            private void parseDBdata(String response) {
+                                try
+                                {
+                                    JSONObject jsonObject = new JSONObject((response));
+                                    if(jsonObject.getString("status").equals("true"))
+                                    {
+                                        saveData(response);
+                                    }
+                                } catch (JSONException e) { e.printStackTrace();}
+                            }
+
+                            private void saveData(String response) {
+                                Helper.PutIsData(true);
+                                try{
+                                    JSONObject jsonObject = new JSONObject(String.valueOf(response));
+                                    System.out.println(jsonObject);
+                                    if(jsonObject.getString("status").equals("true")){
+                                        JSONArray dataArray = jsonObject.getJSONArray("data");
+                                        //for(int i = 0; i<dataArray.length(); i++){
+                                           // JSONObject dataobj = dataArray.getJSONObject(i);
+                                            //OFFDATALIST.add((String) dataobj.get("AIRON"));
+                                            //for(String j : OFFDATALIST) { System.out.println(j); }
+                                        //}
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<String> call, Throwable throwable) {
+
+                            }
+                        });
+
                         break;
                     }
 
