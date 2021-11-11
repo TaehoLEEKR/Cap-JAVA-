@@ -218,8 +218,9 @@ public class Main_Activity extends AppCompatActivity {
                     }
                     case MotionEvent.ACTION_UP:{
                         img_air.setBackgroundResource(R.color.white);
-                        Intent intent = new Intent(Main_Activity.this, AirActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(Main_Activity.this, AirActivity.class);
+//                        startActivity(intent);
+                        Toast.makeText(Main_Activity.this, "Developing!!", Toast.LENGTH_SHORT).show();
                         break;
                     }
                 }   // switch end
@@ -237,8 +238,9 @@ public class Main_Activity extends AppCompatActivity {
                     }
                     case MotionEvent.ACTION_UP:{
                         img_tv.setBackgroundResource(R.color.white);
-                        Intent intent = new Intent(Main_Activity.this, TvActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(Main_Activity.this, TvActivity.class);
+//                        startActivity(intent);
+                        Toast.makeText(Main_Activity.this, "Developing!!", Toast.LENGTH_SHORT).show();
                         break;
                     }
                 }  // switch end
@@ -256,8 +258,9 @@ public class Main_Activity extends AppCompatActivity {
                     }
                     case MotionEvent.ACTION_UP:{
                         img_beem.setBackgroundResource(R.color.white);
-                        Intent intent = new Intent(Main_Activity.this, BeemActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(Main_Activity.this, BeemActivity.class);
+//                        startActivity(intent);
+                        Toast.makeText(Main_Activity.this, "Developing!!", Toast.LENGTH_SHORT).show();
                         break;
                     }
                 }  // switch end
