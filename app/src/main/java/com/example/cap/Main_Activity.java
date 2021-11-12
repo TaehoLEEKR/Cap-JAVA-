@@ -7,10 +7,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -32,6 +36,10 @@ public class Main_Activity extends AppCompatActivity {
 
     private int img_sw = 0;
     private ImageButton img_btn, img_tv, img_air, img_beem ;
+    private Button send_btn;
+   // private ImageButton img_btn_plus, img_btn_min;
+   //private TextView temp;
+    private EditText InputTemperature;
     private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
     private Toast toast;                    // 첫번째 뒤로가기 시 토스 던지기
     private Helper Helper;
@@ -84,43 +92,16 @@ public class Main_Activity extends AppCompatActivity {
             }
         });
 
-//        ImageButton Air = findViewById(R.id.air);
-//        Air.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Main_Activity.this, AirActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        ImageButton TV = findViewById(R.id.tv);
-//        TV.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Main_Activity.this, TvActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
-//        ImageButton Beem = findViewById(R.id.beem);
-//        Beem.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(Main_Activity.this, BeemActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-        // 마지막거 만들면 추가할 예정.
-
-
-
         // 전원버튼 클릭 이미지 변경함수
         img_btn = findViewById(R.id.img_btn);
         img_tv = findViewById(R.id.tv);
         img_air = findViewById(R.id.air);
         img_beem = findViewById(R.id.beem);
+        InputTemperature = findViewById(R.id.Temperature);
+        send_btn = findViewById(R.id.SEND_btn);
 //        img_btn_min = findViewById(R.id.btn_min);
 //        img_btn_plus = findViewById(R.id.btn_plus);
+  //      temp = findViewById(R.id.display_temp);
 
         img_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -129,6 +110,8 @@ public class Main_Activity extends AppCompatActivity {
                 //final String AIR = new String("ON");
                 //final String AIROFF = String.valueOf(img_btn.getId());
                 String AIR;
+                String Temperature;
+
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
                         img_btn.setBackgroundResource(R.drawable.power_ing);
@@ -140,64 +123,91 @@ public class Main_Activity extends AppCompatActivity {
 
                             AIR = new String("OFF");        // Post OFF
 
+                            Temperature = new String("NULL");
+                            // 온도 설정 off하기
+                            //temp.setText("OFF");
+                            // 온도 설정 end
                             img_btn.setBackgroundResource(R.drawable.power_off); // 개빢치네 여기는 왜 안됨
 
                         }
                         else {
+                            AIR = new String("ON");        // Post ON
+
+                            Temperature = new String(InputTemperature.getText().toString().trim());
+                            try {
+                                if (Integer.parseInt(Temperature) < 18 || Integer.parseInt(Temperature) > 30) {
+                                    Toast.makeText(Main_Activity.this, "Error : 18~30℃사이의 온도를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                                    InputTemperature.setText("");
+                                    InputTemperature.setHint("Temperature");
+                                    img_btn.setBackgroundResource(R.drawable.power_off);
+                                    break;
+                                }
+                            }
+                            catch (NumberFormatException e){
+                                Toast.makeText(Main_Activity.this, "Error : 숫자로 입력해주세요.", Toast.LENGTH_SHORT).show();
+                                InputTemperature.setText("");
+                                InputTemperature.setHint("Temperature");
+                                img_btn.setBackgroundResource(R.drawable.power_off);
+                                break;
+                            }
+
                             img_sw = 1;
 
-                            AIR = new String("ON");        // Post ON
+//                            // 온도 설정
+//                            number = 20;
+//                            temp.setText(number);
+                            // 온도 설정 end
 
                             img_btn.setBackgroundResource(R.drawable.power);
                         }
-
-                        P_INTER API = retrofit.create(P_INTER.class);
-                        Call<String> call = API.getID(AIR);
-
-                        call.enqueue(new Callback<String>() {
-                            @Override
-                            public void onResponse(Call<String> call, Response<String> response) {
-                                if(response.isSuccessful()){
-                                    String jsonResponse = response.body();
-                                    parseDBdata(jsonResponse);
-                                }
-                            }
-
-                            private void parseDBdata(String response) {
-                                try
-                                {
-                                    JSONObject jsonObject = new JSONObject((response));
-                                    if(jsonObject.getString("status").equals("true"))
-                                    {
-                                        saveData(response);
-                                    }
-                                } catch (JSONException e) { e.printStackTrace();}
-                            }
-
-                            private void saveData(String response) {
-                                Helper.PutIsData(true);
-                                try{
-                                    JSONObject jsonObject = new JSONObject(String.valueOf(response));
-                                    System.out.println(jsonObject);
-                                    if(jsonObject.getString("status").equals("true")){
-                                        JSONArray dataArray = jsonObject.getJSONArray("data");
-                                        //for(int i = 0; i<dataArray.length(); i++){
-                                           // JSONObject dataobj = dataArray.getJSONObject(i);
-                                            //OFFDATALIST.add((String) dataobj.get("AIRON"));
-                                            //for(String j : OFFDATALIST) { System.out.println(j); }
-                                        //}
-                                    }
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<String> call, Throwable throwable) {
-
-                            }
-                        });
+                        POSTDATA(AIR, Temperature);
+//                        P_INTER API = retrofit.create(P_INTER.class);
+//                        Call<String> call = API.getID(AIR, Temperature);
+//
+//                        call.enqueue(new Callback<String>() {
+//                            @Override
+//                            public void onResponse(Call<String> call, Response<String> response) {
+//                                if(response.isSuccessful()){
+//                                    String jsonResponse = response.body();
+//                                    parseDBdata(jsonResponse);
+//                                }
+//                            }
+//
+//                            private void parseDBdata(String response) {
+//                                try
+//                                {
+//                                    JSONObject jsonObject = new JSONObject((response));
+//                                    if(jsonObject.getString("status").equals("true"))
+//                                    {
+//                                        saveData(response);
+//                                    }
+//                                } catch (JSONException e) { e.printStackTrace();}
+//                            }
+//
+//                            private void saveData(String response) {
+//                                Helper.PutIsData(true);
+//                                try{
+//                                    JSONObject jsonObject = new JSONObject(String.valueOf(response));
+//                                    System.out.println(jsonObject);
+//                                    if(jsonObject.getString("status").equals("true")){
+//                                        JSONArray dataArray = jsonObject.getJSONArray("data");
+////                                        for(int i = 0; i<dataArray.length(); i++){
+////                                         JSONObject dataobj = dataArray.getJSONObject(i);
+////                                        OFFDATALIST.add((String) dataobj.get("AIR"));
+////                                        for(String j : OFFDATALIST) { System.out.println(j); }
+////                                        }
+//                                    }
+//
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<String> call, Throwable throwable) {
+//
+//                            }
+//                        });
 
                         break;
                     }
@@ -228,7 +238,7 @@ public class Main_Activity extends AppCompatActivity {
             }
         });
 
-            img_tv.setOnTouchListener(new View.OnTouchListener() {
+        img_tv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()){
@@ -248,7 +258,7 @@ public class Main_Activity extends AppCompatActivity {
             }
         });
 
-                img_beem.setOnTouchListener(new View.OnTouchListener() {
+        img_beem.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()){
@@ -268,7 +278,35 @@ public class Main_Activity extends AppCompatActivity {
             }
         });
 
+        send_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String AIR = new String("ON");
+                String Temperature;
+                if(img_sw == 1){
+                    try {
+                        Temperature = new String(InputTemperature.getText().toString().trim());
 
+                        if (Integer.parseInt(Temperature) < 18 || Integer.parseInt(Temperature) > 30) {
+                            Toast.makeText(Main_Activity.this, "Error : 18~30℃사이의 온도를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                            InputTemperature.setText("");
+                            InputTemperature.setHint("Temperature");
+                            return;
+                        }
+
+                        POSTDATA(AIR, Temperature);
+                    }
+                    catch (NumberFormatException e){
+                        Toast.makeText(Main_Activity.this, "Error : 숫자로 입력해주세요.", Toast.LENGTH_SHORT).show();
+                        InputTemperature.setText("");
+                        InputTemperature.setHint("Temperature");
+                        return;
+                    }
+                }
+            }
+        });
+
+//
 //        img_btn_min.setOnTouchListener(new View.OnTouchListener() {
 //            @Override
 //            public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -312,6 +350,59 @@ public class Main_Activity extends AppCompatActivity {
 //            }
 //        });
     }   // onCreate end
+
+
+    void POSTDATA(String AIR, String Temperature){
+        P_INTER API = retrofit.create(P_INTER.class);
+        Call<String> call = API.getID(AIR, Temperature);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    String jsonResponse = response.body();
+                    parseDBdata(jsonResponse);
+                }
+            }
+
+            private void parseDBdata(String response) {
+                try
+                {
+                    JSONObject jsonObject = new JSONObject((response));
+                    if(jsonObject.getString("status").equals("true"))
+                    {
+                        saveData(response);
+                    }
+                } catch (JSONException e) { e.printStackTrace();}
+            }
+
+            private void saveData(String response) {
+                Helper.PutIsData(true);
+                try{
+                    JSONObject jsonObject = new JSONObject(String.valueOf(response));
+                    System.out.println(jsonObject);
+                    if(jsonObject.getString("status").equals("true")){
+                        JSONArray dataArray = jsonObject.getJSONArray("data");
+//                                        for(int i = 0; i<dataArray.length(); i++){
+//                                         JSONObject dataobj = dataArray.getJSONObject(i);
+//                                        OFFDATALIST.add((String) dataobj.get("AIR"));
+//                                        for(String j : OFFDATALIST) { System.out.println(j); }
+//                                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable throwable) {
+
+            }
+        });
+
+    }
+
 
 
     @Override

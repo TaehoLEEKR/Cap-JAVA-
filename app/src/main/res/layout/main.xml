@@ -21,22 +21,58 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+                <TableRow>
+                    <androidx.constraintlayout.utils.widget.ImageFilterButton/>
 
+                    <ImageButton
+                        android:id="@+id/img_btn"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:background="@drawable/power_off"
+                        android:baselineAligned="false"
+                        android:layout_marginTop="117dp"
+                        android:layout_marginLeft="20dp"
+                        android:scaleType="matrix"
+                        android:scaleX="1"
+                        android:scaleY="1" />
+
+                        />
+                </TableRow>
         <TableRow>
+            <view class="androidx.appcompat.app.AlertController$RecycleListView">
+            </view>
 
-            <androidx.constraintlayout.utils.widget.ImageFilterButton/>
-            <ImageButton
-                android:id="@+id/img_btn"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="120dp"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/power_off"
-                android:baselineAligned="false"
-                android:scaleType="matrix"
-                android:scaleX="1"
-                android:scaleY="1" />
+            <EditText
+                android:id="@+id/Temperature"
+                android:hint="Temperature"
+                android:layout_marginTop="40dp" />
+
+            <Button
+                android:id="@+id/SEND_btn"
+                android:layout_marginTop="40dp"
+                android:text="@string/SEND"
+                style="?android:attr/button"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:scaleX="1"/>
         </TableRow>
+
+<!--        <TableRow>-->
+<!--            <androidx.constraintlayout.utils.widget.ImageFilterButton/>-->
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/img_btn"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="150dp"-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:layout_marginTop="120dp"-->
+<!--                android:background="@drawable/power_off"-->
+<!--                android:baselineAligned="false"-->
+<!--                android:scaleType="matrix"-->
+<!--                android:scaleX="1"-->
+<!--                android:scaleY="1" />-->
+
+<!--        </TableRow>-->
 
         <TableRow>
             <ImageButton
@@ -45,7 +81,7 @@
                     android:layout_height="100dp"
                     android:background="@color/white"
                     android:src="@drawable/air"
-                    android:layout_marginTop="200dp"
+                    android:layout_marginTop="150dp"
                     android:layout_marginLeft="10dp"
                     android:scaleType="centerCrop" />
 
@@ -55,7 +91,7 @@
                     android:layout_height="100dp"
                     android:background="@color/white"
                     android:src="@drawable/tv"
-                    android:layout_marginTop="200dp"
+                    android:layout_marginTop="150dp"
                     android:layout_marginLeft="10dp"
                     android:scaleType="centerCrop"  />
 
@@ -65,7 +101,7 @@
                     android:layout_height="100dp"
                     android:background="@color/white"
                     android:src="@drawable/beem"
-                    android:layout_marginTop="200dp"
+                    android:layout_marginTop="150dp"
                     android:layout_marginLeft="10dp"
                     android:scaleType="centerCrop"  />
             </TableRow>

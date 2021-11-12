@@ -14,5 +14,8 @@ public interface P_INTER {
     @POST("ac.php") // post 형식으로 php 웹서버에 전달
 
     Call<String> getID(
-            @Field("AIR") String AIR);
+            @Field("AIR") String AIR,
+            @Field("TEMPERATURE") String TEMPERATURE
+    );
+
 }

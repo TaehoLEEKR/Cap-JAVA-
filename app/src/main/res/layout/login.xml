@@ -44,27 +44,25 @@
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="315dp">
 
         <Button
+            android:id="@+id/btn_login"
+            style="?android:attr/button"
             android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="90dp"
             android:layout_marginTop="130dp"
-            android:text="@string/로그인"
-            style="?android:attr/button"
-            android:id="@+id/btn_login"
-            />
+            android:text="@string/로그인" />
 
         <Button
+            android:id="@+id/btn_signup"
+            style="?android:attr/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="130dp"
-            android:text="@string/회원가입"
-            style="?android:attr/button"
-            android:id="@+id/btn_signup"
-            />
+            android:text="@string/회원가입" />
 
     </TableRow>
 </TableLayout>

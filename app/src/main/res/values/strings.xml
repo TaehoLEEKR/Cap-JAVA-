@@ -6,6 +6,7 @@
     <string name="로그인">로그인</string>
     <string name="회원가입">회원가입</string>
     <string name="내정보">Information</string>
+    <string name="SEND">SEND</string>
     <string name="Logout">Logout</string>
     <string name="title_activity_signup">Signup_Activity</string>
     <!-- Strings used for fragments for navigation -->
