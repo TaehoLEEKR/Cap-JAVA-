@@ -140,6 +140,6 @@ void loop() {
       Serial.println(temperature);
   }
 
-
+ //
   delay(500);
 }
