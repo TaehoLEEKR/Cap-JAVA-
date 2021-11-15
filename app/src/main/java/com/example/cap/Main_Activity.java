@@ -33,12 +33,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Main_Activity extends AppCompatActivity {
-
+    // -----------------------------------변수 선언 부분 -------------------------------------//
     private int img_sw = 0;
     private ImageButton img_btn, img_tv, img_air, img_beem ;
     private Button send_btn;
-   // private ImageButton img_btn_plus, img_btn_min;
-   //private TextView temp;
     private EditText InputTemperature;
     private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
     private Toast toast;                    // 첫번째 뒤로가기 시 토스 던지기
@@ -46,24 +44,34 @@ public class Main_Activity extends AppCompatActivity {
     private ArrayList <String> ONDATALIST = new ArrayList();
     private ArrayList <String> OFFDATALIST = new ArrayList();
 
+    // -----------------------------------레트로핏 선언 부분 -------------------------------------//
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(P_INTER.Post_URL)
             .addConverterFactory(ScalarsConverterFactory.create())
             .build();
-
+    // ---------------------------------------------------------------------------------------//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
+        //--------------------- 버튼을 눌렀을 때 필요한 버튼들의 변수들을 생성-------------------------//
         Helper =  new Helper(this);
-
-        ArrayList<String> Datalist = new ArrayList<String>();
+        DrawerLayout layout_drawer = findViewById(R.id.layout_drawer); // 메인화면 레이아웃
+        ImageButton imageButton = findViewById(R.id.imageButton); // 메뉴바 이미지 버튼 변수
+        ArrayList<String> Datalist = new ArrayList<String>();    // 로그인의 정보를 담을 배열 변수
         Datalist = getIntent().getStringArrayListExtra("Datalist");
+        NavigationView naviView = findViewById(R.id.naviView); // 네비게이션 변수
+        ArrayList<String> finalDatalist = Datalist;
+        img_btn = findViewById(R.id.img_btn);
+        img_tv = findViewById(R.id.tv);
+        img_air = findViewById(R.id.air);
+        img_beem = findViewById(R.id.beem);
+        InputTemperature = findViewById(R.id.Temperature);
+        send_btn = findViewById(R.id.SEND_btn);
 
-        DrawerLayout layout_drawer = findViewById(R.id.layout_drawer);
-        ImageButton imageButton = findViewById(R.id.imageButton);
+        // ---------------------------------------------------------------------------------------//
+
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,70 +79,56 @@ public class Main_Activity extends AppCompatActivity {
                 layout_drawer.openDrawer(GravityCompat.END);
             }
         });
-        NavigationView naviView = findViewById(R.id.naviView);
 
-        ArrayList<String> finalDatalist = Datalist;
+        // ---------------------------------------------------------------------------------------//
+
         naviView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
                 if (item.getItemId() == R.id.info) {
-                    System.out.println("내 정보");
                     Intent intent = new Intent(Main_Activity.this, Information_Activitiy.class);
                     intent.putExtra("Datalist", finalDatalist);
                     startActivity(intent);
                 }
                 if (item.getItemId() == R.id.device)
-                    System.out.println("디바이스");
                 if (item.getItemId() == R.id.deviceAdd)
-                    System.out.println("장치 추가");
                 layout_drawer.closeDrawers();
                 return false;
             }
         });
+        // ---------------------------------------------------------------------------------------//
 
         // 전원버튼 클릭 이미지 변경함수
-        img_btn = findViewById(R.id.img_btn);
-        img_tv = findViewById(R.id.tv);
-        img_air = findViewById(R.id.air);
-        img_beem = findViewById(R.id.beem);
-        InputTemperature = findViewById(R.id.Temperature);
-        send_btn = findViewById(R.id.SEND_btn);
-//        img_btn_min = findViewById(R.id.btn_min);
-//        img_btn_plus = findViewById(R.id.btn_plus);
-  //      temp = findViewById(R.id.display_temp);
 
+        // ---------------------------------메인화면의 전원 버튼을 눌렀을 때-------------------------------------//
         img_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                //final String AIRID = String.valueOf(img_btn.getId()); // 전원을 눌렀을때 아무 값이 전해지지 않아 일부러 버튼ID 값을 String으로 바꿔서 신호를 보냄
-                //final String AIR = new String("ON");
-                //final String AIROFF = String.valueOf(img_btn.getId());
-                String AIR;
-                String Temperature;
 
-                switch (event.getAction()) {
+                String AIR;         // 레트로핏의 줄 신호
+                String Temperature; //
+
+                switch (event.getAction()) { // switch~ case ON - ING - OFF 상황
+
                     case MotionEvent.ACTION_DOWN: {
                         img_btn.setBackgroundResource(R.drawable.power_ing);
                         break;
-                    }
-                    case MotionEvent.ACTION_UP: {
+                    } // ING 누르고 있는 상황
+
+                    case MotionEvent.ACTION_UP: { // 전원이 꺼져 있는 경우
                         if(img_sw == 1) {
                             img_sw = 0;
-
                             AIR = new String("OFF");        // Post OFF
-
                             Temperature = new String("NULL");
-                            // 온도 설정 off하기
-                            //temp.setText("OFF");
-                            // 온도 설정 end
-                            img_btn.setBackgroundResource(R.drawable.power_off); // 개빢치네 여기는 왜 안됨
-
+                            img_btn.setBackgroundResource(R.drawable.power_off);
                         }
                         else {
-                            AIR = new String("ON");        // Post ON
 
-                            Temperature = new String(InputTemperature.getText().toString().trim());
-                            try {
+                            AIR = new String("ON");        // Post ON
+                            Temperature = new String(InputTemperature.getText().toString().trim()); // 온도 변수
+
+                            // ----------------------------------------예외처리--------------------------------------//
+                            try { //18~30 도사이의 온도를 입력하고 예외의 경우를 처리해주는 부분
                                 if (Integer.parseInt(Temperature) < 18 || Integer.parseInt(Temperature) > 30) {
                                     Toast.makeText(Main_Activity.this, "Error : 18~30℃사이의 온도를 입력해주세요.", Toast.LENGTH_SHORT).show();
                                     InputTemperature.setText("");
@@ -150,73 +144,19 @@ public class Main_Activity extends AppCompatActivity {
                                 img_btn.setBackgroundResource(R.drawable.power_off);
                                 break;
                             }
-
+                            // --------------------------------------문자를 입력했을 경우의 예외처리------------------------------------------//
                             img_sw = 1;
-
-//                            // 온도 설정
-//                            number = 20;
-//                            temp.setText(number);
-                            // 온도 설정 end
-
                             img_btn.setBackgroundResource(R.drawable.power);
                         }
-                        POSTDATA(AIR, Temperature);
-//                        P_INTER API = retrofit.create(P_INTER.class);
-//                        Call<String> call = API.getID(AIR, Temperature);
-//
-//                        call.enqueue(new Callback<String>() {
-//                            @Override
-//                            public void onResponse(Call<String> call, Response<String> response) {
-//                                if(response.isSuccessful()){
-//                                    String jsonResponse = response.body();
-//                                    parseDBdata(jsonResponse);
-//                                }
-//                            }
-//
-//                            private void parseDBdata(String response) {
-//                                try
-//                                {
-//                                    JSONObject jsonObject = new JSONObject((response));
-//                                    if(jsonObject.getString("status").equals("true"))
-//                                    {
-//                                        saveData(response);
-//                                    }
-//                                } catch (JSONException e) { e.printStackTrace();}
-//                            }
-//
-//                            private void saveData(String response) {
-//                                Helper.PutIsData(true);
-//                                try{
-//                                    JSONObject jsonObject = new JSONObject(String.valueOf(response));
-//                                    System.out.println(jsonObject);
-//                                    if(jsonObject.getString("status").equals("true")){
-//                                        JSONArray dataArray = jsonObject.getJSONArray("data");
-////                                        for(int i = 0; i<dataArray.length(); i++){
-////                                         JSONObject dataobj = dataArray.getJSONObject(i);
-////                                        OFFDATALIST.add((String) dataobj.get("AIR"));
-////                                        for(String j : OFFDATALIST) { System.out.println(j); }
-////                                        }
-//                                    }
-//
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onFailure(Call<String> call, Throwable throwable) {
-//
-//                            }
-//                        });
-
+                        POSTDATA(AIR, Temperature); // P_INTER 에 POST 해줄 함수
                         break;
                     }
 
                 }   // switch end
-                return true; // 안써주면 반환형오류떠서 써줌!
+                return true;
             }
         });
-
+        // ---------------------------메인화면의 3개의 이미지 버튼들 --------------------------------//
         img_air.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -224,12 +164,9 @@ public class Main_Activity extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:{
                         img_air.setBackgroundResource(R.color.back);
                         break;
-
                     }
                     case MotionEvent.ACTION_UP:{
                         img_air.setBackgroundResource(R.color.white);
-//                        Intent intent = new Intent(Main_Activity.this, AirActivity.class);
-//                        startActivity(intent);
                         Toast.makeText(Main_Activity.this, "Developing!!", Toast.LENGTH_SHORT).show();
                         break;
                     }
@@ -248,8 +185,6 @@ public class Main_Activity extends AppCompatActivity {
                     }
                     case MotionEvent.ACTION_UP:{
                         img_tv.setBackgroundResource(R.color.white);
-//                        Intent intent = new Intent(Main_Activity.this, TvActivity.class);
-//                        startActivity(intent);
                         Toast.makeText(Main_Activity.this, "Developing!!", Toast.LENGTH_SHORT).show();
                         break;
                     }
@@ -268,8 +203,6 @@ public class Main_Activity extends AppCompatActivity {
                     }
                     case MotionEvent.ACTION_UP:{
                         img_beem.setBackgroundResource(R.color.white);
-//                        Intent intent = new Intent(Main_Activity.this, BeemActivity.class);
-//                        startActivity(intent);
                         Toast.makeText(Main_Activity.this, "Developing!!", Toast.LENGTH_SHORT).show();
                         break;
                     }
@@ -277,7 +210,10 @@ public class Main_Activity extends AppCompatActivity {
                 return true;
             }
         });
+        // ---------------------------메인화면의 3개의 이미지 버튼들 --------------------------------//
 
+
+        // ---------------------------온도를 보내줄 SEND 버튼 함수--------------------------------//
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -305,50 +241,6 @@ public class Main_Activity extends AppCompatActivity {
                 }
             }
         });
-
-//
-//        img_btn_min.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                switch (motionEvent.getAction()){
-//                    case MotionEvent.ACTION_DOWN:{
-//                        img_btn_min.setBackgroundResource(R.drawable.min_w);
-//                        break;
-//                    }
-//                    case MotionEvent.ACTION_UP:{
-//                        img_btn_min.setBackgroundResource(R.drawable.min);
-//                        if(img_sw == 1) {
-//                            if (number > 18)
-//                                number -= 1;
-//                            temp.setText(number + "℃");
-//                        }
-//                        break;
-//                    }
-//                }
-//                return true;
-//            }
-//        });
-//        img_btn_plus.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                switch (motionEvent.getAction()){
-//                    case MotionEvent.ACTION_DOWN:{
-//                        img_btn_plus.setBackgroundResource(R.drawable.plus_w);
-//                        break;
-//                    }
-//                    case MotionEvent.ACTION_UP:{
-//                        img_btn_plus.setBackgroundResource(R.drawable.plus);
-//                        if(img_sw == 1) {
-//                            if (number < 30)
-//                                number += 1;
-//                            temp.setText(number + "℃");
-//                        }
-//                        break;
-//                    }
-//                }
-//                return true;
-//            }
-//        });
     }   // onCreate end
 
 
@@ -383,22 +275,12 @@ public class Main_Activity extends AppCompatActivity {
                     System.out.println(jsonObject);
                     if(jsonObject.getString("status").equals("true")){
                         JSONArray dataArray = jsonObject.getJSONArray("data");
-//                                        for(int i = 0; i<dataArray.length(); i++){
-//                                         JSONObject dataobj = dataArray.getJSONObject(i);
-//                                        OFFDATALIST.add((String) dataobj.get("AIR"));
-//                                        for(String j : OFFDATALIST) { System.out.println(j); }
-//                                        }
                     }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                } catch (JSONException e) { e.printStackTrace(); }
             }
-
             @Override
-            public void onFailure(Call<String> call, Throwable throwable) {
-
-            }
+            public void onFailure(Call<String> call, Throwable throwable) { }
         });
 
     }

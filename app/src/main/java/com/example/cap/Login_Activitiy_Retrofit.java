@@ -77,7 +77,6 @@ public class Login_Activitiy_Retrofit extends AppCompatActivity {
             }
         });
 
-        // btn_signup , btn_login  -=> setOnClickListener()
 
     }
 

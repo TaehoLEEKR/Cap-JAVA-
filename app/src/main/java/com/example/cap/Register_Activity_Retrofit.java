@@ -35,7 +35,13 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
     private Helper Helper;
     private long backKeyPressedTime = 0;    // 뒤로가기 버튼을 눌렀던 시간을 저장
     // ------------------------------------------------------------------------------------------
+    //레트로핏 변수 생성
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(RegisterInterface.REGIST_URL)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .build();
 
+    //-----------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,16 +72,12 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
     }
 
     private void registerMe() {
+        // 회원가입 정보 변수 String형태로 지정
         final String ID = et_id.getText().toString();
         final String PW = et_pass.getText().toString();
         final String Name = et_name.getText().toString();
         final String Phone = et_phone.getText().toString();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RegisterInterface.REGIST_URL)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .build();
-
+        //----------------------------------------------------------------------------------------
 
         RegisterInterface api = retrofit.create(RegisterInterface.class);
         Call<String> call = api.getUserRegist(ID, PW, Name, Phone);
@@ -91,18 +93,12 @@ public class Register_Activity_Retrofit extends AppCompatActivity {
                     try { parseRegData(jsonResponse); } catch (JSONException e) { e.printStackTrace(); }
                 }
             }
-
             @Override
-            public void onFailure(@NonNull Call<String>call, Throwable t)
-            {
-                Log.e("Error = %s " , t.getMessage());
-
-            }
-
+            public void onFailure(@NonNull Call<String>call, Throwable t) { Log.e("Error = %s " , t.getMessage()); }
         });
-
     }
-     private void parseRegData(String response) throws JSONException
+
+     private void parseRegData(String response) throws JSONException // 데이터 JSON 파싱
      {
          JSONObject jsonObject = new JSONObject(response);
          if (jsonObject.optString("status").equals("true"))
