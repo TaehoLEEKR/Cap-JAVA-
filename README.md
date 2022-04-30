@@ -8,9 +8,9 @@
   <!-- BUllet list -->
   <br>
 
-  ✔️ **이대호** : &nbsp; Leader , Front/Back, AWS(APM), AndroidStudio
+  ✔️ **이대호** : &nbsp; Leader , ,Front/Back, AWS(APM), AndroidStudio
   
-  ✔️ **고중협** : &nbsp; Front/Back , DB, AWS(APM) , AndroidStudio
+  ✔️ **고중협** : &nbsp; Front/Back , AWS(APM) , AndroidStudio
 
   ✔️ **정지원** : &nbsp; Arduino , H/W  
 
